@@ -37,7 +37,8 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app  # Mount backend folder inside the container
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    #command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 
   celery_worker:
     build: .
@@ -47,6 +48,7 @@ services:
       - redis
     environment:
       - DJANGO_SETTINGS_MODULE=project.settings
+    env_file: .env
 
   celery_beat:
     build: .
@@ -58,5 +60,6 @@ services:
       - celery_worker
     environment:
       - DJANGO_SETTINGS_MODULE=project.settings
+    env_file: .env
 volumes:
   postgres_data:

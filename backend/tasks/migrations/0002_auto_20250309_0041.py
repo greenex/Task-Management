@@ -5,13 +5,19 @@ def add_periodic_tasks(apps, schema_editor):
     # Create an Interval Schedule if it doesn’t exist (e.g., every day)
     schedule, created = IntervalSchedule.objects.get_or_create(
         every=1,
-        period=IntervalSchedule.DAYS,
+        period=IntervalSchedule.MINUTES,
     )
 
     # Add a periodic task using that schedule
     PeriodicTask.objects.get_or_create(
         name='Delete Old Completed Tasks',
-        task='task.tasks.delete_old_completed_tasks',
+        task='tasks.tasks.delete_old_completed_tasks',
+        defaults={'interval': schedule}
+    )
+
+    PeriodicTask.objects.get_or_create(
+        name='Run Task Reminder',
+        task='tasks.tasks.send_task_reminder',
         defaults={'interval': schedule}
     )
 

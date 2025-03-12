@@ -32,14 +32,14 @@ This is a sample project that provides a basic task management system with user 
     cd Task-Management
     ```
 
-2. **Start Docker Services**:
+2. **create .env file**:
     ```bash
-    docker-compose up -d
+    cp .env.example .env
     ```
 
-3. **Apply Migrations**:
+3. **Start Docker Services**:
     ```bash
-    docker-compose exec backend python manage.py migrate
+    docker-compose up -d
     ```
 
 4. **Access the Application**:
